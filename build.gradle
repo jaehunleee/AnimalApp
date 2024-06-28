@@ -18,13 +18,6 @@ configurations {
 	}
 }
 
-apply plugin: 'war'
-
-war{
-    archiveFileName = 'AnimalApp.war' // 생성할 WAR 파일명 설정
-    exclude '**/spring-boot-starter-tomcat/**' // 내장 톰캣 관련 의존성 제외	
-}
-
 repositories {
 	mavenCentral()
 }
@@ -62,14 +55,14 @@ dependencies {
 	implementation 'com.sun.xml.ws:jaxws-rt:2.3.3'
 	implementation 'com.sun.xml.messaging.saaj:saaj-impl:1.5.3'
 	implementation 'com.sun.xml.bind:jaxb-impl:2.3.3'	
+	//몽고 DB 추가 
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:3.2.5'
 
 	//AOP 추가
 	implementation 'org.springframework.boot:spring-boot-starter-aop:3.2.5'
 	
 	//스프링 시큐리티 추가 spring boot starter security
 	implementation 'org.springframework.boot:spring-boot-starter-security:3.2.5'
-	
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' // 톰캣 제공 런타임 설정	
 	 
 }
 

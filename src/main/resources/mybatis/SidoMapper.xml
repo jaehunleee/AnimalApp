@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
-<mapper namespace="com.sds.animalapp.model.shelter.SidoDAO">
-	<select id="selectAll" resultType="Sido">
-		select * from sido 
-	</select>
-	
-	<select id="select" resultType="Sido">
-		select * from sido
-		where orgdownNm LIKE CONCAT(#{keyword}, '%')
-	</select>
-	
-	
-	<insert id="insertAll" parameterType="java.util.List">
+<mapper namespace="com.sds.apitodb.model.sido.SidoDAO">
+    <!-- 단일 insert 문 실행 -->
+    <insert id="insertAll" parameterType="java.util.List">
         <!-- 모든 요소를 포함하는 단일 insert 문 -->
         insert into sido(orgCd, orgdownNm)
         values

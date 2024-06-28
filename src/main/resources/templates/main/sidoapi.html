@@ -6,20 +6,17 @@
 </head>
 
 <body>
-	<button id="sido_btn">시도API 페이지</button>
-	<button id="animal_btn">동물API 페이지</button>
+	<h1>시도 시군구 테이블을 채우기 위한 페이지 입니다.</h1>
+	<button id="btn">저장</button>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </body>
 <script type="text/javascript">
 	$(function () {
-	    $("#sido_btn").click(function () {
+	    $("#btn").click(function () {
+	        console.log("ddd");
 	        // URL에 검색어미터 추가하여 이동
-	        location.href = "/sidoapi";
-	    });
-	    $("#animal_btn").click(function () {
-	        // URL에 검색어미터 추가하여 이동
-	        location.href = "/animalapi";
+	        location.href = "/call/sido";
 	    });
 	});
 </script>

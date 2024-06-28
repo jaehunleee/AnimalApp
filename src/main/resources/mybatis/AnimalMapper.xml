@@ -1,171 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
-<mapper namespace="com.sds.animalapp.model.animal.AnimalDAO">
+<mapper namespace="com.sds.apitodb.model.animal.AnimalDAO">
+    <!-- 단일 insert 문 실행 -->
+    <insert id="insertAll">
+	    INSERT INTO animal (desertionNo, filename, happenDt, happenPlace, kindCd, colorCd, age, weight, noticeNo, noticeSdt, noticeEdt, popfile, processState, sexCd, neuterYn, specialMark, careNm, careTel, careAddr, orgNm, chargeNm, officetel)
+	    VALUES
+	    <if test="list != null and !list.isEmpty()">
+	        <foreach collection="list" item="item" separator=",">
+	            (#{item.desertionNo}, #{item.filename}, #{item.happenDt}, #{item.happenPlace}, #{item.kindCd}, #{item.colorCd}, #{item.age}, #{item.weight}, #{item.noticeNo}, #{item.noticeSdt}, #{item.noticeEdt}, #{item.popfile}, #{item.processState}, #{item.sexCd}, #{item.neuterYn}, #{item.specialMark}, #{item.careNm}, #{item.careTel}, #{item.careAddr}, #{item.orgNm}, #{item.chargeNm}, #{item.officetel})
 
-	<!-- 보호동물 API 데이터 insert 문 -->
-	<insert id="insertAll">
-		INSERT INTO animal (desertionNo, filename, happenDt, happenPlace,
-		kindCd, colorCd, age, weight, noticeNo, noticeSdt, noticeEdt, popfile,
-		processState, sexCd, neuterYn, specialMark, careNm, careTel, careAddr,
-		orgNm, chargeNm, officetel)
-		VALUES
-		<if test="list != null and !list.isEmpty()">
-			<foreach collection="list" item="item" separator=",">
-				(#{item.desertionNo}, #{item.filename}, #{item.happenDt},
-				#{item.happenPlace}, #{item.kindCd}, #{item.colorCd}, #{item.age},
-				#{item.weight}, #{item.noticeNo}, #{item.noticeSdt},
-				#{item.noticeEdt}, #{item.popfile}, #{item.processState},
-				#{item.sexCd}, #{item.neuterYn}, #{item.specialMark},
-				#{item.careNm}, #{item.careTel}, #{item.careAddr}, #{item.orgNm},
-				#{item.chargeNm}, #{item.officetel})
-
-			</foreach>
-		</if>
+	        </foreach>
+	    </if>
 	</insert>
-
-	<delete id="delete">
-		delete from animal
-	</delete>
-
-	<select id="selectCount"
-		parameterType="com.sds.animalapp.domain.AnimalSelectParam"
-		resultType="int">
-		select count(*) from animal
-		where kindCd like concat('%', #{keyword},
-		'%')
-		<if test="age != null and age != ''">
-			and age like concat('%', #{age}, '%')
-		</if>
-		<if test="region != null and region != ''">
-			and careAddr like concat('%', #{region}, '%')
-		</if>
-		<if test="care != null and care != ''">
-			and careNm like concat('%', #{care}, '%')
-		</if>
-		<if test="sex != null and sex != ''">
-			and sexCd like concat('%', #{sex}, '%')
-		</if>
-		<if test="status != null and status != ''">
-			and processState like concat('%', #{status}, '%')
-		</if>
-		order by happenDt desc
-		limit #{startIndex}, #{rowCount}
-	</select>
-
-
-	<select id="selectAll"
-		parameterType="com.sds.animalapp.domain.AnimalSelectParam"
-		resultType="Animal">
-		select * from animal
-		where kindCd like concat('%', #{keyword}, '%')
-		<if test="age != null and age != ''">
-			and age like concat('%', #{age}, '%')
-		</if>
-		<if test="region != null and region != ''">
-			and careAddr like concat('%', #{region}, '%')
-		</if>
-		<if test="care != null and care != ''">
-			and careNm like concat('%', #{care}, '%')
-		</if>
-		<if test="sex != null and sex != ''">
-			and sexCd like concat('%', #{sex}, '%')
-		</if>
-		<if test="status != null and status != ''">
-			and processState like concat('%', #{status}, '%')
-		</if>
-		order by happenDt desc
-		limit #{startIndex}, #{rowCount}
-	</select>
-
-	<select id="selectPreview" resultType="Animal">
-		SELECT * FROM animal
-		ORDER
-		BY RAND()
-		LIMIT 4;
-	</select>
-
-
-
-	<select id="select" parameterType="int" resultType="Animal">
-		select * from
-		animal where animal_idx=#{animal_idx}
-	</select>
-
-	<!-- 한 동물에 대한 입양신청 인원 조회 -->
-	<select id="countRegistMember" parameterType="int"
-		resultType="int">
-		SELECT COUNT(*)
-		FROM adopt_animal
-		WHERE animal_idx =
-		#{animal_idx}
-	</select>
-
-	<update id="update"
-		parameterType="com.sds.animalapp.domain.Animal">
-		UPDATE animal
-		SET filename = #{filename},
-		happenDt =
-		#{happenDt},
-		happenPlace = #{happenPlace},
-		kindCd = #{kindCd},
-		colorCd =
-		#{colorCd},
-		age = #{age},
-		weight = #{weight},
-		noticeNo = #{noticeNo},
-		noticeSdt = #{noticeSdt},
-		noticeEdt = #{noticeEdt},
-		popfile =
-		#{popfile},
-		processState = #{processState},
-		sexCd = #{sexCd},
-		neuterYn =
-		#{neuterYn},
-		specialMark = #{specialMark},
-		careNm = #{careNm},
-		careTel =
-		#{careTel},
-		careAddr = #{careAddr},
-		orgNm = #{orgNm},
-		chargeNm =
-		#{chargeNm},
-		officetel = #{officetel}
-		WHERE desertionNo = #{desertionNo}
-	</update>
-
-	<select id="selectByDesertionNo" parameterType="String"
-		resultType="Animal">
-		SELECT * FROM animal
-		WHERE desertionNo = #{desertionNo}
-	</select>
-
-	<insert id="insert" parameterType="Animal">
-		INSERT INTO animal
-		(desertionNo, filename, happenDt, happenPlace,
-		kindCd, colorCd, age,
-		weight, noticeNo, noticeSdt, noticeEdt, popfile,
-		processState, sexCd,
-		neuterYn, specialMark, careNm, careTel, careAddr,
-		orgNm, chargeNm,
-		officetel)
-		VALUES (#{desertionNo}, #{filename}, #{happenDt},
-		#{happenPlace}, #{kindCd}, #{colorCd}, #{age},
-		#{weight}, #{noticeNo},
-		#{noticeSdt},
-		#{noticeEdt}, #{popfile}, #{processState},
-		#{sexCd},
-		#{neuterYn}, #{specialMark},
-		#{careNm}, #{careTel}, #{careAddr},
-		#{orgNm},
-		#{chargeNm}, #{officetel})
-	</insert>
-
-	<select id="findShelterIdxByCareNm"
-		resultType="java.lang.Integer">
-		SELECT shelter_idx
-		FROM shelter
-		WHERE (careNm = #{careNm} and
-		careAddr = #{careAddr} and orgNm = #{orgNm});
-	</select>
-
+    
+    <delete id="delete">
+    	delete from animal
+    </delete>
 </mapper>
